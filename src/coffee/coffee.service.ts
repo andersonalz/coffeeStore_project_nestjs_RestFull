@@ -48,6 +48,7 @@
 import {
   HttpException,
   HttpStatus,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -58,6 +59,7 @@ import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Flavor } from './entities/flavor.entity';
+// import { CoffeeBrand } from './coffee.constant';
 
 @Injectable()
 export class CoffeeService {
@@ -66,7 +68,10 @@ export class CoffeeService {
     private readonly coffeeRepository: Repository<Coffee>,
     @InjectRepository(Flavor)
     private readonly flavorRepository: Repository<Flavor>,
-  ) {}
+    // @Inject(CoffeeBrand) private readonly coffeeBrand: string[],
+  ) {
+    // console.log(CoffeeBrand);
+  }
 
   async findAll() {
     return await this.coffeeRepository.find({

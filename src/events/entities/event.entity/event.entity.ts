@@ -1,8 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 // @Index() for define composite index to multiple column and pass array column name inside array in decorator ['name']
-@Entity()
-export class EventEntity {
+@Entity('events')
+export class Event {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -12,6 +12,6 @@ export class EventEntity {
   @Column()
   name: string;
 
-  @Column()
-  pyload: Record<string, any>;
+  @Column({ type: 'varchar', nullable: true })
+  payload: Record<string, any>;
 }
