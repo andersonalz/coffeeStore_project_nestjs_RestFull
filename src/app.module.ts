@@ -7,7 +7,8 @@ import { EventsModule } from './events/events.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { EmailModule } from './email/email.module';
 import { ConfigModule } from '@nestjs/config'
-
+import * as joi from '@hapi/joi'
+import appConfig from './config/app.config';
 @Module({
   imports: [
     CoffeeModule,
@@ -15,9 +16,17 @@ import { ConfigModule } from '@nestjs/config'
     ConfigModule.forRoot({
       isGlobal: true,// if set isGlobal property to true, the configModule access in all app and  do not require import in every module
       envFilePath: '.env',
+      // ignoreEnvFile: true // this setting for ignore the .env file when set env variable in ui 
+      validationSchema: joi.object({
+        DATABASE_HOST: joi.required(),
+        DATABASE_PORT: joi.number().required().default(5432),
+      }),
+      load: [ // this option for load the configuration file by business domain in other folder  and we can access it by configService get method
+        appConfig 
+      ]
     }),
     TypeOrmModule.forRoot({
-      type: process.env.DATABASE_TYPE,
+      type: 'postgres',
       host: process.env.DATABASE_HOST,
       port: +process.env.DATABASE_PORT,
       username: process.env.DATABASE_USERNAME,

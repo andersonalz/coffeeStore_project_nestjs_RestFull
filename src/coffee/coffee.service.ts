@@ -59,6 +59,7 @@ import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Flavor } from './entities/flavor.entity';
+import { ConfigService } from '@nestjs/config';
 // import { CoffeeBrand } from './coffee.constant';
 
 @Injectable()
@@ -68,9 +69,12 @@ export class CoffeeService {
     private readonly coffeeRepository: Repository<Coffee>,
     @InjectRepository(Flavor)
     private readonly flavorRepository: Repository<Flavor>,
+    private readonly configService: ConfigService,
     // @Inject(CoffeeBrand) private readonly coffeeBrand: string[],
   ) {
     // console.log(CoffeeBrand);
+    // this.configService.get('database.host' , 'localhost') // get data from app.config file 
+    // this.configService.get<string>('DATABASE_HOST', '5432') // get data from .env file 
   }
 
   async findAll() {
