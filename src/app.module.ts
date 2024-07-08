@@ -25,15 +25,19 @@ import appConfig from './config/app.config';
         appConfig 
       ]
     }),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: process.env.DATABASE_HOST,
-      port: +process.env.DATABASE_PORT,
-      username: process.env.DATABASE_USERNAME,
-      password: process.env.DATABASE_PASS,
-      database: process.env.DATABASE_NAME,
-      synchronize: true,
-      autoLoadEntities: true,
+    // TypeOrmModule.forRoot({
+      TypeOrmModule.forRootAsync({ // load for async configuration object by use async method an useFactory function 
+        useFactory: () => ({       // this method can allowed to return a promise object and use able to inject dependency to the inject property 
+          type: 'postgres',        // for example inject configService and use the instead of process.env 
+          host: process.env.DATABASE_HOST, // extract the process.env object by config module
+          port: +process.env.DATABASE_PORT,
+          username: process.env.DATABASE_USERNAME, 
+          password: process.env.DATABASE_PASS,
+          database: process.env.DATABASE_NAME,
+          synchronize: true,
+          autoLoadEntities: true, 
+        })
+     
     }),
     EmailModule,
     MailerModule.forRootAsync({
