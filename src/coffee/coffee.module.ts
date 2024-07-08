@@ -5,6 +5,8 @@ import { CoffeeService } from './coffee.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
+import { ConfigModule } from '@nestjs/config';
+import coffeeConfig from './config/coffee.config';
 // import { Connection } from 'typeorm';
 // import { CoffeeBrand } from './coffee.constant'; //'Coffee_Brand'
 // class MockCoffeeService {}
@@ -19,7 +21,10 @@ import { Flavor } from './entities/flavor.entity';
 // }
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Coffee, Flavor])],
+  imports: [
+    TypeOrmModule.forFeature([Coffee, Flavor]) , 
+    ConfigModule.forFeature(coffeeConfig) // add coffeeConfig from coffee.config file for set namespace config file to this module. this technic is partial registration
+  ],
   controllers: [CoffeeController],
   providers: [
     CoffeeService,

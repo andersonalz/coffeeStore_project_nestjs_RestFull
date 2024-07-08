@@ -59,7 +59,8 @@ import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Flavor } from './entities/flavor.entity';
-import { ConfigService } from '@nestjs/config';
+import { ConfigService, ConfigType } from '@nestjs/config';
+import coffeeConfig from './config/coffee.config';
 // import { CoffeeBrand } from './coffee.constant';
 
 @Injectable()
@@ -70,11 +71,16 @@ export class CoffeeService {
     @InjectRepository(Flavor)
     private readonly flavorRepository: Repository<Flavor>,
     private readonly configService: ConfigService,
+    @Inject(coffeeConfig.KEY)
+    private readonly coffeeConfiguration: ConfigType<typeof coffeeConfig> //this syntax is safety type to get data from coffee.config file 
     // @Inject(CoffeeBrand) private readonly coffeeBrand: string[],
   ) {
     // console.log(CoffeeBrand);
     // this.configService.get('database.host' , 'localhost') // get data from app.config file 
     // this.configService.get<string>('DATABASE_HOST', '5432') // get data from .env file 
+    // const coffeeConfig = this.configService.get('coffees.database.host'); // get data from coffee.config fil. this syntax maybe occur error because we still don't have type safety 
+    // console.log(coffeeConfig) 
+    // conole.log(coffeeConfiguration.database)
   }
 
   async findAll() {
