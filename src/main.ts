@@ -4,11 +4,12 @@ import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      transform: true,
-      forbidNonWhitelisted: true,
+  // we can instead of app.useGlobalPipes(new ValidationPipe()) to use global pipe in app.module.ts in providers file and we can inject dependency to it
+  app.useGlobalPipes( // we can use global pipe for apply validation pipe in all app.with use globalPipes and DTO we can filter any extra property or not valid property from body request  
+    new ValidationPipe({ 
+      whitelist: true, // set whitelist option to true to remove extra property from body request
+      transform: true, // set transform option to true to convert string to number or boolean
+      forbidNonWhitelisted: true, // set forbidNonWhitelisted option to true to forbid non whitelisted property from body request
     }),
   );
   await app.listen(3000);

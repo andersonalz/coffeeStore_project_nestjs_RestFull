@@ -1,6 +1,7 @@
-import { Module } from '@nestjs/common';
+import { Module, ValidationPipe } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { APP_PIPE } from '@nestjs/core'
 import { CoffeeModule } from './coffee/coffee.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EventsModule } from './events/events.module';
@@ -54,6 +55,13 @@ import appConfig from './config/app.config';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService ,
+    {
+      provide: APP_PIPE, //APP_PIPE is special token exported from nest core package 
+      useClass: ValidationPipe,// this syntax we can inject dependency an when app wants to run create instant pipe and It applies to the whole system and register it as global pipe
+    } 
+  ],
 })
 export class AppModule {}
+ 

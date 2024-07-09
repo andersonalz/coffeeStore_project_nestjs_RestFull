@@ -9,17 +9,20 @@ import {
   // Res,
   Patch,
   Delete,
+  ValidationPipe,
+  UsePipes,
   // Query,
 } from '@nestjs/common';
 import { CoffeeService } from './coffee.service';
 // import { Coffee } from './entities/coffee.entity';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
-
+@UsePipes(ValidationPipe) // pass single pipe class or speared with comma for multiple pipe class
+// @UsePipes(new ValidationPipe()) // we can pass instance of pipe class here but this syntax ues extra memory
 @Controller('coffee')
 export class CoffeeController {
   constructor(private readonly coffeeService: CoffeeService) {}
-
+  // @UsePipes(ValidationPipe) we can use pipe decorator for every route to set specific customize option   
   @Get()
   findAll() {
     return this.coffeeService.findAll();
@@ -59,7 +62,8 @@ export class CoffeeController {
   }
 
   @Patch(':id')
-  update(@Body() updateCoffee: UpdateCoffeeDto, @Param() param) {
+    // update(@Body(ValidationPipe) updateCoffee: UpdateCoffeeDto, @Param() param) {  //param scope pipes to filter data come from request 
+    update(@Body() updateCoffee: UpdateCoffeeDto, @Param() param) {
     return this.coffeeService.update(+param.id, updateCoffee);
   }
 
