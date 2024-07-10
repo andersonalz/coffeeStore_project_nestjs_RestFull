@@ -13,7 +13,8 @@ async function bootstrap() {
       forbidNonWhitelisted: true, // set forbidNonWhitelisted option to true to forbid non whitelisted property from body request
     }),
   );
-  app.useGlobalFilters(new HttpExceptionFilter()) // set httpExceptionFilter class for apply global filter in all app  
+  app.useGlobalFilters(new HttpExceptionFilter()) // set httpExceptionFilter class for apply global filter in all app
+  app.useGlobalGuards()
   await app.listen(3000);
 }
 bootstrap();
