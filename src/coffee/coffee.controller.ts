@@ -17,6 +17,7 @@ import { CoffeeService } from './coffee.service';
 // import { Coffee } from './entities/coffee.entity';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
+import { isPublic } from '../common/decorators/public.decorator';
 @UsePipes(ValidationPipe) // pass single pipe class or speared with comma for multiple pipe class
 // @UsePipes(new ValidationPipe()) // we can pass instance of pipe class here but this syntax ues extra memory
 @Controller('coffee')
@@ -24,6 +25,7 @@ export class CoffeeController {
   constructor(private readonly coffeeService: CoffeeService) {}
   // @UsePipes(ValidationPipe) we can use pipe decorator for every route to set specific customize option   
   @Get()
+  @isPublic()
   findAll() {
     return this.coffeeService.findAll();
   }

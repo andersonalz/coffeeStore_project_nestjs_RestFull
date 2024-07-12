@@ -8,6 +8,7 @@ import { EventsModule } from './events/events.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { EmailModule } from './email/email.module';
 import { ConfigModule } from '@nestjs/config'
+import { CommonModule } from './common/common.module';
 import * as joi from '@hapi/joi'
 import appConfig from './config/app.config';
 @Module({
@@ -53,6 +54,7 @@ import appConfig from './config/app.config';
       }
       }),
     }),
+    CommonModule,
   ],
   controllers: [AppController],
   providers: [
