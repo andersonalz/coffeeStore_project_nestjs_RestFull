@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { HttpExceptionFilter } from './common/filters/http-exception/http-exception.filter';
 import { ApiKeyGuard } from './common/guards/api-key/api-key.guard';
+import { WrapResponseInterceptor } from './common/interseptors/wrap-response/wrap-response.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,6 +17,7 @@ async function bootstrap() {
   );
   app.useGlobalFilters(new HttpExceptionFilter()) // set httpExceptionFilter class for apply global filter in all app
   // app.useGlobalGuards(new ApiKeyGuard()) when use this syntax that guard not inject any dependency in class
+  app.useGlobalInterceptors(new WrapResponseInterceptor()); // set wrapResponseInterceptor class for apply global interceptor in all app
   await app.listen(3000);
 }
 bootstrap();
