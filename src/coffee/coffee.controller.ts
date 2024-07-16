@@ -18,6 +18,7 @@ import { CoffeeService } from './coffee.service';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { isPublic } from '../common/decorators/public.decorator';
+import { ParsIntPipe } from 'src/common/pipes/pars-int/pars-int.pipe';
 @UsePipes(ValidationPipe) // pass single pipe class or speared with comma for multiple pipe class
 // @UsePipes(new ValidationPipe()) // we can pass instance of pipe class here but this syntax ues extra memory
 @Controller('coffee')
@@ -46,7 +47,7 @@ export class CoffeeController {
   // }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id' , ParsIntPipe) id: number) {
     return this.coffeeService.findOne(id);
   }
 

@@ -89,7 +89,7 @@ export class CoffeeService {
     });
   }
 
-  async findOne(id: any) {
+  async findOne(id: number) {
     const coffee = await this.coffeeRepository.findOne({
       where: {
         id,
