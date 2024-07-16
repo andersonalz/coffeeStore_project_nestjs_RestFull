@@ -9,7 +9,7 @@ export class EmailService {
         try {
         const message = '<h1>test email</h1>';
         const email = await this.mailerService.sendMail({
-            from: 'from@example.com',
+            from: 'ehsanalizadegan55@gmail.com',
             to: 'ehsanalizadegan55@gmail.com',
             subject: 'Test email',
             text: message,
@@ -18,7 +18,6 @@ export class EmailService {
         console.log("🚀 ~ EmailService ~ sendEmail ~ email:", email)  
         } catch (error) {
             console.log(error);
-            
         }
         
     }

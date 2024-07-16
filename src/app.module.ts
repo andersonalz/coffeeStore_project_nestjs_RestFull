@@ -45,13 +45,16 @@ import appConfig from './config/app.config';
     MailerModule.forRootAsync({
       useFactory: () => ({
         transport: {
-          host: "sandbox.smtp.mailtrap.io",
-          port: 2525,
+          host: process.env.MAIL_HOST,
+          port: +process.env.MAIL_PORT,
           auth: {
-            user: '3e986a8dc2e535',
-            pass: 'cdd9cdb905821b',
+            user: process.env.MAIL_USER,
+            pass: process.env.MAIL_PASS,
           },
-      }
+          tls: {
+            rejectUnauthorized: false,
+          },
+        }
       }),
     }),
     CommonModule,
