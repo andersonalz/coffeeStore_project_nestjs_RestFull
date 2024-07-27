@@ -19,6 +19,7 @@ import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { isPublic } from '../common/decorators/public.decorator';
 import { ParsIntPipe } from 'src/common/pipes/pars-int/pars-int.pipe';
+import { Protocol } from 'src/common/decorators/protocole.decorator';
 @UsePipes(ValidationPipe) // pass single pipe class or speared with comma for multiple pipe class
 // @UsePipes(new ValidationPipe()) // we can pass instance of pipe class here but this syntax ues extra memory
 @Controller('coffee')
@@ -47,7 +48,9 @@ export class CoffeeController {
   // }
 
   @Get(':id')
-  findOne(@Param('id' , ParsIntPipe) id: number) {
+  @isPublic()
+  findOne(@Protocol() protocol:string , @Param('id' , ParsIntPipe) id: number) {
+    // console.log("🚀 ~ findOne ~ protocol:", protocol) //show request protocol whit Protocol decorator created
     return this.coffeeService.findOne(id);
   }
 
@@ -55,7 +58,7 @@ export class CoffeeController {
   // createCoffee(@Body('name') name: string) {
   //     return name;
   // }
-
+  @isPublic()
   @Post()
   //   @HttpCode(HttpStatus.OK)
   // createCoffee(@Body() body , @Res() response) {
