@@ -4,6 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { HttpExceptionFilter } from './common/filters/http-exception/http-exception.filter';
 import { ApiKeyGuard } from './common/guards/api-key/api-key.guard';
 import { WrapResponseInterceptor } from './common/interseptors/wrap-response/wrap-response.interceptor';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,6 +16,13 @@ async function bootstrap() {
       forbidNonWhitelisted: true, // set forbidNonWhitelisted option to true to forbid non whitelisted property from body request
     }),
   );
+  const option = new DocumentBuilder()
+  .setTitle('Coffee API')
+  .setDescription('Coffee API description')
+  .setVersion('1.0')
+  .build();
+  const swaggerDocument = SwaggerModule.createDocument(app, option);
+  SwaggerModule.setup('api-docs', app, swaggerDocument);
   app.useGlobalFilters(new HttpExceptionFilter()) // set httpExceptionFilter class for apply global filter in all app
   // app.useGlobalGuards(new ApiKeyGuard()) when use this syntax that guard not inject any dependency in class
   app.useGlobalInterceptors(new WrapResponseInterceptor()); // set wrapResponseInterceptor class for apply global interceptor in all app
