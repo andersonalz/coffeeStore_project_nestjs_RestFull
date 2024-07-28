@@ -20,8 +20,10 @@ import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { isPublic } from '../common/decorators/public.decorator';
 import { ParsIntPipe } from 'src/common/pipes/pars-int/pars-int.pipe';
 import { Protocol } from 'src/common/decorators/protocole.decorator';
+import { ApiForbiddenResponse, ApiTags } from '@nestjs/swagger';
 @UsePipes(ValidationPipe) // pass single pipe class or speared with comma for multiple pipe class
 // @UsePipes(new ValidationPipe()) // we can pass instance of pipe class here but this syntax ues extra memory
+@ApiTags('coffee')
 @Controller('coffee')
 export class CoffeeController {
   constructor(private readonly coffeeService: CoffeeService) {}
@@ -47,6 +49,7 @@ export class CoffeeController {
   //   return `this route return all coffees with limit ${limit} and offset ${offset}`;
   // }
 
+  @ApiForbiddenResponse({ description: 'Forbidden' })
   @Get(':id')
   @isPublic()
   findOne(@Protocol() protocol:string , @Param('id' , ParsIntPipe) id: number) {
